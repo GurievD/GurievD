@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace WebApplication3.Controllers
 {
-    public class BooksController : Controller
+    public class OrdersController : Controller
     {
-        // GET: Books
-
+        // GET: Orders
         public ActionResult Index()
         {
-            List<Books> authors;
+            List<Orders> orders;
 
             using (Model1 db = new Model1())
             {
-                authors = db.Books.ToList();
+                orders = db.Orders.ToList();
                 //List<Users> books3 = db.Users.ToList();
                 //ViewBag.data = books3;
 
             }
-            return View(authors);
+            return View(orders);
 
 
 
@@ -32,30 +30,35 @@ namespace WebApplication3.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-                Model1 db = new Model1();
-            
-                SelectList books = new SelectList(db.Authors, "Id", "Id", db.Authors.Select(model => model.Id));
-                ViewBag.AuthorId = books;
-                SelectList books2 = new SelectList(db.Authors, "FirstName", "FirstName", db.Authors.Select(model => model.FirstName));
-                ViewBag.AuthorName = books2;
-                //SelectList books3 = new SelectList(db.Users, "Name", "Name", db.Users.Select(model => model.Name));
-                //ViewBag.data = books3;
+            Model1 db = new Model1();
+
+            SelectList orders = new SelectList(db.Users, "Id", "Id", db.Users.Select(model => model.Id));
+            ViewBag.UsersId = orders;
+            SelectList orders2 = new SelectList(db.Users, "Name", "Name", db.Users.Select(model => model.Name));
+            ViewBag.UsersName = orders2;
+            SelectList orders3 = new SelectList(db.Books, "Id", "Id", db.Books.Select(model => model.Id));
+            ViewBag.BooksId = orders3;
+            SelectList orders4 = new SelectList(db.Books, "Title", "Title", db.Books.Select(model => model.Title));
+            ViewBag.BooksName = orders4;
+            //SelectList books = new SelectList(db.Authors, "Id", "Id", db.Authors.Select(model => model.Id));
+            //ViewBag.AuthorId = books;
+
 
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Books books)
+        public ActionResult Create(Orders orders)
         {
             using (Model1 db = new Model1())
             {
 
-                db.Books.Add(books);
+                db.Orders.Add(orders);
                 //try
                 //{
-                
-                    db.SaveChanges();
+
+                db.SaveChanges();
 
                 //}
                 //catch (DbEntityValidationException ex)
@@ -76,41 +79,39 @@ namespace WebApplication3.Controllers
 
         public ActionResult Edit(int? id)
         {
-            Books books;
+            Orders orders;
 
             using (Model1 db = new Model1())
             {
-                books = db.Books.Where(a => a.Id == id).FirstOrDefault();
+                orders = db.Orders.Where(a => a.Id == id).FirstOrDefault();
             }
-            return View(books);
+            return View(orders);
         }
 
         [HttpPost]
-        public ActionResult Edit(Books books)
+        public ActionResult Edit(Orders orders)
         {
             using (Model1 db = new Model1())
             {
-                var oldBook = db.Books.Where(a => a.Id == books.Id).FirstOrDefault();
-                oldBook.AuthorName = books.AuthorName;
-                oldBook.Title = books.Title;
-                oldBook.Pages = books.Pages;
-                oldBook.Price = books.Price;
+                var oldOrder = db.Orders.Where(a => a.Id == orders.Id).FirstOrDefault();
+                oldOrder.BooksName = orders.BooksName;
+                oldOrder.UsersName = orders.UsersName;
 
                 db.SaveChanges();
             }
-            return RedirectToActionPermanent("Index", "Books");
+            return RedirectToActionPermanent("Index", "Orders");
         }
 
         public ActionResult Delete(int id)
         {
             using (Model1 db = new Model1())
             {
-                var books = db.Books.Where(a => a.Id == id).FirstOrDefault();
-                db.Books.Remove(books);
+                var orders = db.Orders.Where(a => a.Id == id).FirstOrDefault();
+                db.Orders.Remove(orders);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", "Books");
-            
+            return RedirectToAction("Index", "Orders");
+
         }
     }
 }

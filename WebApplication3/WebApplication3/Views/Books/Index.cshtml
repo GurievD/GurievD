@@ -1,27 +1,58 @@
-﻿
+﻿@model IEnumerable<Books>
+
 @{
     ViewBag.Title = "Index";
 }
 
-@model List<Books>
 @Html.ActionLink("Создать", "Create", "Books")
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">Book's Title</th>
-            <th scope="col">Book's Price</th>
+
+
+            <th scope="col">Id</th>
+
+            <th scope="col">AuthorId</th>
+
+            <th scope="col">AuthorName</th>
+
+            <th scope="col">Title</th>
+            <th scope="col">Pages</th>
+            <th scope="col">Price</th>
+
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
 
-            <tr>
-                <td scope="row">@item.Title</td>
-                <td scope="row">@item.Price</td>
-                <td scope="row">@Html.ActionLink("Edit author", "Edit", "Books", new { id = @item.Id }, null)</td>
-                <td scope="row">@Html.ActionLink("Delete author", "Delete", "Books", new { id = @item.Id }, null)</td>
-            </tr>
-        }
+
+            @*@foreach (var person in ViewBag.data)
+            {
+                <tr>
+
+                    <td scope="row">@person.Name</td>
+                </tr>
+            }*@
+
+
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+                    <td scope="row">@item.Id</td>
+
+                    <td scope="row">@item.AuthorId</td>
+                    <td scope="row">@item.AuthorName</td>
+
+                    <td scope="row">@item.Title</td>
+                    <td scope="row">@item.Pages</td>
+                    <td scope="row">@item.Price</td>
+
+                    <td scope="row">@Html.ActionLink("Edit author", "Edit", "Books", new { id = @item.Id }, null)</td>
+                    <td scope="row">@Html.ActionLink("Delete author", "Delete", "Books", new { id = @item.Id }, null)</td>
+
+                </tr>
+            }
+        </tbody>
 </table>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Orders>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.ActionLink("Создать", "Create", "Orders")
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+
+            <th scope="col">UserId</th>
+
+            <th scope="col">UserName</th>
+
+            <th scope="col">BookId</th>
+
+            <th scope="col">BookName</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @*@foreach (var person in ViewBag.data)
+            {
+                <tr>
+
+                    <td scope="row">@person.Name</td>
+                </tr>
+            }*@
+
+
+        @foreach (var item in Model)
+        {
+
+        <tr>
+
+            <td scope="row">@item.UsersId</td>
+
+            <td scope="row">@item.UsersName</td>
+
+            <td scope="row">@item.BooksId</td>
+
+            <td scope="row">@item.BooksName</td>
+
+            <td scope="row">@Html.ActionLink("Edit author", "Edit", "Orders", new { id = @item.Id }, null)</td>
+            <td scope="row">@Html.ActionLink("Delete author", "Delete", "Orders", new { id = @item.Id }, null)</td>
+
+        </tr>
+        }
+    </tbody>
+</table>
