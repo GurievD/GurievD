@@ -1,0 +1,35 @@
+﻿@*<h2>@ViewBag.Message</h2>*@
+
+
+
+<style>
+
+    span {
+        color: maroon; 
+        font-weight: 600; 
+    }
+    .class {
+        color: black;
+        font-weight: 600;
+    }
+</style>
+<table class="table table-striped">
+
+    <tbody>
+
+
+
+        @foreach (var item in Model)
+        {
+
+            <ul>
+
+                <li scope="row"> <span>UserId:</span> <span class="class">@item.UsersId</span> <span>UserName:</span> <span class="class">@item.UsersName</span> <span>BookId:</span> <span class="class">@item.BooksId</span> <span>BookName:</span> <span class="class">@item.BooksName</span></li>
+
+
+
+
+            </ul>
+        }
+    </tbody>
+</table>

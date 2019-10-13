@@ -4,7 +4,10 @@
     ViewBag.Title = "Index";
 }
 
+
 @Html.ActionLink("Создать", "Create", "Orders")
+
+
 
 <table class="table table-striped">
     <thead>
@@ -37,20 +40,22 @@
         @foreach (var item in Model)
         {
 
-        <tr>
+            <tr>
 
-            <td scope="row">@item.UsersId</td>
+                <td scope="row">@item.UsersId</td>
 
-            <td scope="row">@item.UsersName</td>
+                <td scope="row">@item.UsersName</td>
 
-            <td scope="row">@item.BooksId</td>
+                <td scope="row">@item.BooksId</td>
 
-            <td scope="row">@item.BooksName</td>
+                <td scope="row">@item.BooksName</td>
 
-            <td scope="row">@Html.ActionLink("Edit author", "Edit", "Orders", new { id = @item.Id }, null)</td>
-            <td scope="row">@Html.ActionLink("Delete author", "Delete", "Orders", new { id = @item.Id }, null)</td>
+                <td scope="row">@Html.ActionLink("Edit author", "Edit", "Orders", new { id = @item.Id }, null)</td>
+                <td scope="row">@Html.ActionLink("Delete author", "Delete", "Orders", new { id = @item.Id }, null)</td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
+
+@Html.Partial("Partial")

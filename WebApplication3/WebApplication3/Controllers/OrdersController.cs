@@ -12,19 +12,15 @@ namespace WebApplication3.Controllers
         public ActionResult Index()
         {
             List<Orders> orders;
-
+            //ViewBag.Message = "Это вызов частичного представления из обычного";
             using (Model1 db = new Model1())
             {
                 orders = db.Orders.ToList();
                 //List<Users> books3 = db.Users.ToList();
                 //ViewBag.data = books3;
+                return View(db.Orders.OrderBy(x => x.Id).Take(5).ToList());
 
             }
-            return View(orders);
-
-
-
-
         }
 
         [HttpGet]
@@ -112,6 +108,14 @@ namespace WebApplication3.Controllers
             }
             return RedirectToAction("Index", "Orders");
 
+        }
+
+        public ActionResult Partial()
+        {
+                Model1 db = new Model1();
+
+                //ViewBag.Message = "Это частичное представление.";
+                return PartialView();
         }
     }
 }
