@@ -3,7 +3,7 @@ namespace WebApplication3.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class LibraryMigration : DbMigration
+    public partial class MyMigration : DbMigration
     {
         public override void Up()
         {
@@ -41,6 +41,7 @@ namespace WebApplication3.Migrations
                         BooksName = c.String(),
                         UsersId = c.Int(nullable: false),
                         UsersName = c.String(),
+                        DateOrder = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BooksId, cascadeDelete: true)

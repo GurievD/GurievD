@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication3.Repositories;
 
 namespace WebApplication3.Controllers
 {
     public class AuthorController : Controller
     {
+        UnitOfWork unitOfWork;
+
+        public AuthorController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
         // GET: Author
         public ActionResult Index()
         {
-            List<Authors> authors;
-            using (Model1 db = new Model1())
-            {
 
-                authors = db.Authors.ToList();
+            var authors = unitOfWork.Authors.GetAll();
 
-            }
 
             return View(authors);
         }
@@ -29,47 +32,64 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public ActionResult Create(Authors author)
         {
-            using (Model1 db = new Model1())
-            {
-                db.Authors.Add(author);
-                db.SaveChanges();
-            }
-            return Redirect("Index");
+            unitOfWork.Authors.Create(author);
+            //try
+            //{
+
+            unitOfWork.Save();
+
+            //}
+            //catch (DbEntityValidationException ex)
+            //{
+            //    foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+            //    {
+            //        Response.Write("Object: " + validationError.Entry.Entity.ToString());
+            //        Response.Write("");
+            //        foreach (DbValidationError err in validationError.ValidationErrors)
+            //        {
+            //            Response.Write(err.ErrorMessage + "");
+            //        }
+            //    }
+            //}
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int? id)
         {
-            Authors author;
-            using (Model1 db = new Model1())
-            {
-                author = db.Authors.Where(a => a.Id == id).FirstOrDefault();
-            }
-            return View(author);
+            Authors authors;
+
+
+            authors = unitOfWork.Authors.Get(id);
+
+            return View(authors);
         }
 
         [HttpPost]
         public ActionResult Edit(Authors author)
         {
-            using (Model1 db = new Model1())
-            {
-                var oldAuthor = db.Authors.Where(a => a.Id == author.Id).FirstOrDefault();
-                oldAuthor.FirstName = author.FirstName;
-                oldAuthor.LastName = author.LastName;
+            var oldAuthor = unitOfWork.Authors.Find(a => a.Id == author.Id).FirstOrDefault();
+            oldAuthor.FirstName = author.FirstName;
+            oldAuthor.LastName = author.LastName;
 
-                db.SaveChanges();
-            }
+
+            unitOfWork.Save();
+
             return RedirectToActionPermanent("Index", "Author");
         }
 
         public ActionResult Delete(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var author = db.Authors.Where(a => a.Id == id).FirstOrDefault();
-                db.Authors.Remove(author);
-                db.SaveChanges();
-            }
+            unitOfWork.Authors.Delete(id);
+            unitOfWork.Save();
+
             return RedirectToAction("Index", "Author");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            unitOfWork.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

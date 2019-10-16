@@ -4,25 +4,26 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication3.Interfaces;
+using WebApplication3.Repositories;
 
 namespace WebApplication3.Controllers
 {
     public class BooksController : Controller
     {
         // GET: Books
+        UnitOfWork unitOfWork;
+
+        public BooksController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
 
         public ActionResult Index()
         {
-            List<Books> authors;
+            var books = unitOfWork.Books.GetAll();
 
-            using (Model1 db = new Model1())
-            {
-                authors = db.Books.ToList();
-                //List<Users> books3 = db.Users.ToList();
-                //ViewBag.data = books3;
-
-            }
-            return View(authors);
+            return View(books);
 
 
 
@@ -48,15 +49,14 @@ namespace WebApplication3.Controllers
         [HttpPost]
         public ActionResult Create(Books books)
         {
-            using (Model1 db = new Model1())
-            {
 
-                db.Books.Add(books);
-                //try
-                //{
+              
+                    unitOfWork.Books.Create(books);
+                    //try
+                    //{
+
+                    unitOfWork.Save();
                 
-                    db.SaveChanges();
-
                 //}
                 //catch (DbEntityValidationException ex)
                 //{
@@ -70,7 +70,7 @@ namespace WebApplication3.Controllers
                 //        }
                 //    }
                 //}
-            }
+            
             return RedirectToAction("Index");
         }
 
@@ -78,39 +78,44 @@ namespace WebApplication3.Controllers
         {
             Books books;
 
-            using (Model1 db = new Model1())
-            {
-                books = db.Books.Where(a => a.Id == id).FirstOrDefault();
-            }
+
+            books = unitOfWork.Books.Get(id);
+          
             return View(books);
         }
 
         [HttpPost]
         public ActionResult Edit(Books books)
         {
-            using (Model1 db = new Model1())
-            {
-                var oldBook = db.Books.Where(a => a.Id == books.Id).FirstOrDefault();
+         
+                
+                var oldBook = unitOfWork.Books.Find(a => a.Id == books.Id).FirstOrDefault();
                 oldBook.AuthorName = books.AuthorName;
                 oldBook.Title = books.Title;
                 oldBook.Pages = books.Pages;
                 oldBook.Price = books.Price;
 
-                db.SaveChanges();
-            }
+                unitOfWork.Save();
+            
             return RedirectToActionPermanent("Index", "Books");
         }
 
         public ActionResult Delete(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var books = db.Books.Where(a => a.Id == id).FirstOrDefault();
-                db.Books.Remove(books);
-                db.SaveChanges();
-            }
+
+                unitOfWork.Books.Delete(id);
+                unitOfWork.Save();
+            
             return RedirectToAction("Index", "Books");
             
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            unitOfWork.Dispose();
+            base.Dispose(disposing);
+        }
+
+
     }
 }

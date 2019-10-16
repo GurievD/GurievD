@@ -3,24 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication3.Repositories;
 
 namespace WebApplication3.Controllers
 {
     public class OrdersController : Controller
     {
+        UnitOfWork unitOfWork;
+
+        public OrdersController()
+        {
+            unitOfWork = new UnitOfWork();
+        }
+
         // GET: Orders
         public ActionResult Index()
         {
-            List<Orders> orders;
-            //ViewBag.Message = "Это вызов частичного представления из обычного";
-            using (Model1 db = new Model1())
-            {
-                orders = db.Orders.ToList();
-                //List<Users> books3 = db.Users.ToList();
-                //ViewBag.data = books3;
-                return View(db.Orders.OrderBy(x => x.Id).Take(5).ToList());
+            var orders = unitOfWork.Orders.GetAll();
 
-            }
+            return View(orders);
+
+
         }
 
         [HttpGet]
@@ -49,12 +52,34 @@ namespace WebApplication3.Controllers
         {
             using (Model1 db = new Model1())
             {
+                //if (orders.DateOrder.Date <= DateTime.Now.Date)
+                //{
+                //    ViewBag.err = "This user is a critical debtor!";
+                //    return RedirectToAction("Create");
 
-                db.Orders.Add(orders);
+                //}
+
+                if (orders.DateOrder > DateTime.Now || orders.DateOrder == null)
+                {
+                    unitOfWork.Orders.Create(orders);
+                    unitOfWork.Save();
+                    return RedirectToAction("Index");
+
+                }
+                else
+                {
+                    return RedirectToAction("Create");
+
+                }
+
+         
+
+
+
+
                 //try
                 //{
 
-                db.SaveChanges();
 
                 //}
                 //catch (DbEntityValidationException ex)
@@ -69,45 +94,47 @@ namespace WebApplication3.Controllers
                 //        }
                 //    }
                 //}
+
             }
-            return RedirectToAction("Index");
+
         }
 
         public ActionResult Edit(int? id)
         {
             Orders orders;
 
-            using (Model1 db = new Model1())
-            {
-                orders = db.Orders.Where(a => a.Id == id).FirstOrDefault();
-            }
+
+            orders = unitOfWork.Orders.Get(id);
+
             return View(orders);
         }
 
         [HttpPost]
         public ActionResult Edit(Orders orders)
         {
-            using (Model1 db = new Model1())
-            {
-                var oldOrder = db.Orders.Where(a => a.Id == orders.Id).FirstOrDefault();
-                oldOrder.BooksName = orders.BooksName;
-                oldOrder.UsersName = orders.UsersName;
+            var oldOrder = unitOfWork.Orders.Find(a => a.Id == orders.Id).FirstOrDefault();
+            oldOrder.BooksName = orders.BooksName;
+            oldOrder.UsersName = orders.UsersName;
+   
 
-                db.SaveChanges();
-            }
+            unitOfWork.Save();
+
             return RedirectToActionPermanent("Index", "Orders");
         }
 
         public ActionResult Delete(int id)
         {
-            using (Model1 db = new Model1())
-            {
-                var orders = db.Orders.Where(a => a.Id == id).FirstOrDefault();
-                db.Orders.Remove(orders);
-                db.SaveChanges();
-            }
+            unitOfWork.Orders.Delete(id);
+            unitOfWork.Save();
+
             return RedirectToAction("Index", "Orders");
 
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            unitOfWork.Dispose();
+            base.Dispose(disposing);
         }
 
         public ActionResult Partial()
@@ -117,5 +144,7 @@ namespace WebApplication3.Controllers
                 //ViewBag.Message = "Это частичное представление.";
                 return PartialView();
         }
+
+
     }
 }
