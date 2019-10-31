@@ -35,10 +35,8 @@ namespace WebApplication3.Controllers
         {
                 Model1 db = new Model1();
             
-                SelectList books = new SelectList(db.Authors, "Id", "Id", db.Authors.Select(model => model.Id));
+                SelectList books = new SelectList(db.Authors, "Id", "FirstName", db.Authors.ToList());
                 ViewBag.AuthorId = books;
-                SelectList books2 = new SelectList(db.Authors, "FirstName", "FirstName", db.Authors.Select(model => model.FirstName));
-                ViewBag.AuthorName = books2;
                 //SelectList books3 = new SelectList(db.Users, "Name", "Name", db.Users.Select(model => model.Name));
                 //ViewBag.data = books3;
 
@@ -50,13 +48,14 @@ namespace WebApplication3.Controllers
         public ActionResult Create(Books books)
         {
 
-              
-                    unitOfWork.Books.Create(books);
-                    //try
-                    //{
+            if (books.Title != null)
+            {
+                unitOfWork.Books.Create(books);
+                //try
+                //{
 
-                    unitOfWork.Save();
-                
+                unitOfWork.Save();
+
                 //}
                 //catch (DbEntityValidationException ex)
                 //{
@@ -70,8 +69,14 @@ namespace WebApplication3.Controllers
                 //        }
                 //    }
                 //}
-            
-            return RedirectToAction("Index");
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Create");
+
+            }
         }
 
         public ActionResult Edit(int? id)

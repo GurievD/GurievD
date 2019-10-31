@@ -6,10 +6,10 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("Edit", null))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Users</h4>
         <hr />

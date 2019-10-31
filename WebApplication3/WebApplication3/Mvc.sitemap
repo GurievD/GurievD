@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home" controller="Home" action="Index">
+
+    <mvcSiteMapNode title="About" controller="Home" action="About"/>
+    <mvcSiteMapNode title="Contact" controller="Home" action="Contact"/>
+
+    <mvcSiteMapNode title="Authors" controller="Author" action="Index">
+      <mvcSiteMapNode title="Create" controller="Author" action="Create"/>
+      <mvcSiteMapNode title="Edit" controller="Author" action="Edit" />
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Books" controller="Books" action="Index">
+      <mvcSiteMapNode title="Create" controller="Books" action="Create"/>
+      <mvcSiteMapNode title="Edit" controller="Books" action="Edit"  />
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Users" controller="User" action="Index">
+      <mvcSiteMapNode title="Create" controller="User" action="Create"/>
+      <mvcSiteMapNode title="Edit" controller="User" action="Edit" />
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Orders" controller="Orders" action="Index">
+      <mvcSiteMapNode title="Create" controller="Orders" action="Create"/>
+      <mvcSiteMapNode title="Edit" controller="Orders" action="Edit" />
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Genres" controller="Genre" action="Index">
+      <mvcSiteMapNode title="Create" controller="Genre" action="Create"/>
+      <mvcSiteMapNode title="Edit" controller="Genre" action="Edit" />
+    </mvcSiteMapNode>
+
+    </mvcSiteMapNode>
+
+</mvcSiteMap>

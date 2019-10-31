@@ -8,7 +8,6 @@
 @Html.ActionLink("Создать", "Create", "Orders")
 
 
-
 <table class="table table-striped">
     <thead>
         <tr>
@@ -62,4 +61,4 @@
     </tbody>
 </table>
 
-@Html.Partial("Partial")
+@Html.Partial("Partial", Model.Take(5).ToList())

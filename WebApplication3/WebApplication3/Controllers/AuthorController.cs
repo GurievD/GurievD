@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcSiteMapProvider;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,9 +21,10 @@ namespace WebApplication3.Controllers
         {
 
             var authors = unitOfWork.Authors.GetAll();
+            List<Authors> sortedList = authors.OrderBy(x => x.FirstName).ToList();
 
 
-            return View(authors);
+            return View(sortedList);
         }
         public ActionResult Create()
         {
@@ -54,7 +56,6 @@ namespace WebApplication3.Controllers
 
             return RedirectToAction("Index");
         }
-
         public ActionResult Edit(int? id)
         {
             Authors authors;
@@ -91,5 +92,6 @@ namespace WebApplication3.Controllers
             unitOfWork.Dispose();
             base.Dispose(disposing);
         }
+
     }
 }

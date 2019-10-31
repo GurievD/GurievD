@@ -4,12 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
+
 namespace WebApplication3.Controllers
 {
     public class HomeController : Controller
     {
+        readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public ActionResult Index()
         {
+
+            log.Error("это сообщение об ошибке!");
             return View();
         }
 

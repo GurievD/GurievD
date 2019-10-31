@@ -13,6 +13,7 @@ namespace WebApplication3.Repositories
         private BookRepository bookRepository;
         private AuthorRepository authorRepository;
         private OrderRepository orderRepository;
+        private GenreRepository genreRepository;
 
         public IRepository<Authors> Authors
         {
@@ -51,6 +52,16 @@ namespace WebApplication3.Repositories
                 if (orderRepository == null)
                     orderRepository = new OrderRepository(db);
                 return orderRepository;
+            }
+        }
+
+        public IRepository<Genres> Genres
+        {
+            get
+            {
+                if (genreRepository == null)
+                    genreRepository = new GenreRepository(db);
+                return genreRepository;
             }
         }
 

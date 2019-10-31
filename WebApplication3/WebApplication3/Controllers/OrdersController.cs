@@ -1,14 +1,18 @@
-﻿using System;
+﻿using MvcSiteMapProvider;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication3.Repositories;
 
+
 namespace WebApplication3.Controllers
 {
+
     public class OrdersController : Controller
     {
+
         UnitOfWork unitOfWork;
 
         public OrdersController()
@@ -20,9 +24,8 @@ namespace WebApplication3.Controllers
         public ActionResult Index()
         {
             var orders = unitOfWork.Orders.GetAll();
-
             return View(orders);
-
+            
 
         }
 
@@ -98,7 +101,6 @@ namespace WebApplication3.Controllers
             }
 
         }
-
         public ActionResult Edit(int? id)
         {
             Orders orders;
@@ -142,7 +144,7 @@ namespace WebApplication3.Controllers
                 Model1 db = new Model1();
 
                 //ViewBag.Message = "Это частичное представление.";
-                return PartialView();
+                return View(unitOfWork.Orders.GetAll().Take(5).ToList());
         }
 
 

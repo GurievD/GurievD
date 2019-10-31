@@ -1,9 +1,9 @@
-﻿
+﻿@model List<Users>
+
 @{
     ViewBag.Title = "Index";
 }
 
-@model List<Users>
 @Html.ActionLink("Создать", "Create", "User")
 
 <table class="table table-striped">
@@ -19,13 +19,13 @@
 
         @foreach (var item in Model)
         {
-        <tr>
+            <tr>
 
-            <td scope="row">@item.Name</td>
-            <td scope="row">@item.Email</td>
+                <td scope="row">@item.Name</td>
+                <td scope="row">@item.Email</td>
 
-            <td scope="row">@Html.ActionLink("Edit author", "Edit", "User", new { id = @item.Id }, null)</td>
-            <td scope="row">@Html.ActionLink("Delete author", "Delete", "User", new { id = @item.Id }, null)</td>
-        </tr>
+                <td scope="row">@Html.ActionLink("Edit author", "Edit", "User", new { id = @item.Id }, null)</td>
+                <td scope="row">@Html.ActionLink("Delete author", "Delete", "User", new { id = @item.Id }, null)</td>
+            </tr>
         }
 </table>

@@ -18,7 +18,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("Create", null))
 {
     @Html.AntiForgeryToken()
 

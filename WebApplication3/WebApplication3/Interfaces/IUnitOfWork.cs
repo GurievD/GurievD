@@ -12,6 +12,8 @@ namespace WebApplication3.Interfaces
         IRepository<Orders> Orders { get; }
         IRepository<Authors> Authors { get; }
         IRepository<Books> Books { get; }
+        IRepository<Genres> Genres { get; }
+
         void Save();
     }
 }
